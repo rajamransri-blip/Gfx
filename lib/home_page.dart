@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   bool isDownloading = false;
 
   // Replace with your actual GitHub RAW file URL
-  final String fileUrl = "https://raw.githubusercontent.com/user/repo/main/file.txt";
+  final String fileUrl = "https://github.com/rajamransri-blip/Gfx/releases/download/Pak/mini_obbzsdic_obb.pak";
 
   @override
   void initState() {
