@@ -22,11 +22,11 @@ jobs:
         with:
           flutter-version: "3.19.0"
 
-      # YAHAN FIX HAI: Yeh purane ya missing Android folder ko naya aur fresh bana dega
+      # 🛠️ YAHAN FIX HAI: Zabardasti lowercase name aur proper organization ID di hai
       - name: Repair/Create Flutter Project Files
-        run: flutter create .
+        run: flutter create --project-name gaming_tool --org com.raaz.gaming .
 
-      # (Optional) Agar permissions add karni hain build se pehle, auto-inject ho jayengi
+      # Storage Permissions Auto-Inject
       - name: Add Storage Permissions to Manifest
         run: |
           sed -i '/<application/i \    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />' android/app/src/main/AndroidManifest.xml
