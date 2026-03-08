@@ -8,22 +8,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.0"
 
-      - run: flutter pub get
+      - name: Create Fresh Flutter Project
+        run: flutter create fresh_app
 
-      - run: flutter build apk --release
+      - name: Copy Source Code
+        run: |
+          rm -rf fresh_app/lib
+          cp -r lib fresh_app/
 
-      - uses: actions/upload-artifact@v4
+      - name: Build APK
+        run: |
+          cd fresh_app
+          flutter pub get
+          flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
-          name: apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-      # Your project will need to have tests in test/ and a dependency on
-      # package:test for this step to succeed. Note that Flutter projects will
-      # want to change this to 'flutter test'.
-      - name: Run tests
-        run: dart test
+          name: app-release
+          path: fresh_app/build/app/outputs/flutter-apk/app-release.apk
