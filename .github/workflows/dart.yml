@@ -1,7 +1,7 @@
 name: Build APK
 
 on:
-  workflow_dispatch: # Manual trigger button on GitHub
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,7 +11,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Android build ke liye Java zaroori hai (Flutter 3.x+ requires Java 17)
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -23,15 +22,21 @@ jobs:
         with:
           flutter-version: "3.19.0"
 
-      # Seedha aapke repo mein dependencies install karega
+      # YAHAN FIX HAI: Yeh purane ya missing Android folder ko naya aur fresh bana dega
+      - name: Repair/Create Flutter Project Files
+        run: flutter create .
+
+      # (Optional) Agar permissions add karni hain build se pehle, auto-inject ho jayengi
+      - name: Add Storage Permissions to Manifest
+        run: |
+          sed -i '/<application/i \    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />' android/app/src/main/AndroidManifest.xml
+
       - name: Install Dependencies
         run: flutter pub get
 
-      # Aapke actual project ka APK build karega
       - name: Build APK
         run: flutter build apk --release
 
-      # Build hone ke baad APK ko Actions tab mein upload kar dega
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
