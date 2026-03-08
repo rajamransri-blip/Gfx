@@ -1,5 +1,5 @@
 name: gaming_tool
-description: Gaming UI Tool
+description: Simple gaming UI
 publish_to: "none"
 
 version: 1.0.0+1
@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
+  http: ^1.2.1
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
