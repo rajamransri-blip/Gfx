@@ -1,5 +1,9 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,18 +15,44 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   bool ipad = false;
-  bool smooth = false;
-  bool fps = false;
+
+  // GitHub RAW file URL
+  final String fileUrl =
+      "https://raw.githubusercontent.com/user/repo/main/file.txt";
+
+  Future<void> downloadFile() async {
+
+    await Permission.storage.request();
+
+    final directory = await getExternalStorageDirectory();
+    final raazFolder = Directory("${directory!.path}/Raaz");
+
+    if (!raazFolder.existsSync()) {
+      raazFolder.createSync(recursive: true);
+    }
+
+    final response = await http.get(Uri.parse(fileUrl));
+
+    final file = File("${raazFolder.path}/ipad_file.txt");
+
+    await file.writeAsBytes(response.bodyBytes);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("File Downloaded in Raaz folder")),
+      );
+    }
+  }
 
   Widget toggleCard(String title, bool value, Function(bool) onChanged) {
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 12),
       padding: const EdgeInsets.all(18),
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        color: value ? Colors.green : Colors.grey.shade900,
+        color: Colors.grey.shade900,
       ),
 
       child: Row(
@@ -62,16 +92,14 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: [
 
-            toggleCard("iPad View", ipad, (v){
+            toggleCard("iPad View", ipad, (v) async {
+
               setState(() => ipad = v);
-            }),
 
-            toggleCard("Smooth Graphics", smooth, (v){
-              setState(() => smooth = v);
-            }),
+              if (v) {
+                await downloadFile();
+              }
 
-            toggleCard("90 FPS Mode", fps, (v){
-              setState(() => fps = v);
             }),
 
           ],
