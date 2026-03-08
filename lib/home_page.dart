@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      // Request permission (Required for older Androids, newer Androids use scoped storage)
+      // Request permission
       await Permission.storage.request();
 
       final directory = await getExternalStorageDirectory();
@@ -203,7 +203,6 @@ class _HomePageState extends State<HomePage> {
               value: ipad,
               isLoading: isDownloading,
               onChanged: (v) async {
-                // Instantly update UI switch, then process
                 setState(() => ipad = v);
                 await handleIpadView(v);
               },
@@ -216,7 +215,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 12),
 
-            // Dummy 90 FPS Toggle (For UI demonstration)
+            // Dummy 90 FPS Toggle
             toggleCard(
               title: "Unlock 90 FPS",
               subtitle: "Smoother graphics & performance",
@@ -231,14 +230,13 @@ class _HomePageState extends State<HomePage> {
 
             const SizedBox(height: 24),
             
-            // Utility Button Example
+            // 🛠️ YAHAN FIX KIYA HAI: 'onIcon' hata diya gaya hai.
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent.withOpacity(0.8),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              onIcon: const Icon(Icons.cleaning_services, color: Colors.white), // Added label context manually for fix below
               icon: const Icon(Icons.cleaning_services, color: Colors.white),
               label: const Text("Clear Game Cache", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
               onPressed: () {
