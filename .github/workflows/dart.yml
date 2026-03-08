@@ -1,38 +1,39 @@
 name: Build APK
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Manual trigger button on GitHub
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
+
+      # Android build ke liye Java zaroori hai (Flutter 3.x+ requires Java 17)
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.0"
 
-      - name: Create fresh project
-        run: flutter create app
+      # Seedha aapke repo mein dependencies install karega
+      - name: Install Dependencies
+        run: flutter pub get
 
-      - name: Copy project files
-        run: |
-          rm -rf app/lib
-          cp -r lib app/
-          cp pubspec.yaml app/
-
+      # Aapke actual project ka APK build karega
       - name: Build APK
-        run: |
-          cd app
-          flutter pub get
-          flutter build apk --release
+        run: flutter build apk --release
 
+      # Build hone ke baad APK ko Actions tab mein upload kar dega
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: app/build/app/outputs/flutter-apk/app-release.apk
+          name: Gaming-Tool-Release-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
