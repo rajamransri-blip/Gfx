@@ -6,25 +6,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Gaming Tool",
-
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF0f0f12),
-
-        // FIXED
-        cardTheme: const CardTheme(
-          elevation: 6,
-        ),
-      ),
-
+      theme: ThemeData.dark(),
       home: const HomePage(),
     );
   }
