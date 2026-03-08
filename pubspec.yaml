@@ -1,5 +1,5 @@
-name: gfx_tool_ui
-description: Gaming style toggle UI
+name: gaming_tool
+description: Gaming UI Tool
 publish_to: "none"
 
 version: 1.0.0+1
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
