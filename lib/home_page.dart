@@ -10,32 +10,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  bool aimbot = false;
-  bool ipadView = false;
+  bool ipad = false;
   bool smooth = false;
-  bool fps90 = false;
+  bool fps = false;
 
   Widget toggleCard(String title, bool value, Function(bool) onChanged) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+
+    return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(18),
+
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        gradient: LinearGradient(
-          colors: value
-              ? [Colors.greenAccent, Colors.green]
-              : [Colors.grey.shade900, Colors.black],
-        ),
+        color: value ? Colors.green : Colors.grey.shade900,
       ),
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              )),
+
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
           CupertinoSwitch(
             value: value,
             onChanged: onChanged,
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+
       appBar: AppBar(
         title: const Text("Gaming Tool UI"),
         centerTitle: true,
@@ -56,23 +58,20 @@ class _HomePageState extends State<HomePage> {
 
       body: Padding(
         padding: const EdgeInsets.all(16),
+
         child: ListView(
           children: [
 
-            toggleCard("Aimbot", aimbot, (v){
-              setState(() => aimbot = v);
-            }),
-
-            toggleCard("iPad View", ipadView, (v){
-              setState(() => ipadView = v);
+            toggleCard("iPad View", ipad, (v){
+              setState(() => ipad = v);
             }),
 
             toggleCard("Smooth Graphics", smooth, (v){
               setState(() => smooth = v);
             }),
 
-            toggleCard("90 FPS Mode", fps90, (v){
-              setState(() => fps90 = v);
+            toggleCard("90 FPS Mode", fps, (v){
+              setState(() => fps = v);
             }),
 
           ],
